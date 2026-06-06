@@ -5,7 +5,7 @@ Console.WriteLine("KillPort Utility");
 Console.WriteLine("================");
 Console.WriteLine("Enter one port or comma-separated ports.");
 Console.WriteLine("Example: 3000 or 3000,5000,5173");
-Console.WriteLine("Search process names with: name:node");
+Console.WriteLine("Search process names with: node or name:node");
 Console.WriteLine("Type 'exit' or 'quit' to close.");
 Console.WriteLine();
 
@@ -67,6 +67,12 @@ static void ProcessInput(string input)
         return;
     }
 
+    if (ShouldSearchByProcessName(input))
+    {
+        KillProcessesByName(input);
+        return;
+    }
+
     var ports = input
         .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
         .Select(ParsePort)
@@ -82,12 +88,18 @@ static void ProcessInput(string input)
     {
         if (!portResult.IsValid)
         {
-            Console.WriteLine($"[INVALID] '{portResult.RawValue}' is not a valid port number.");
+            Console.WriteLine($"[INVALID] '{portResult.RawValue}' is not a valid port or process name.");
             continue;
         }
 
         KillProcessUsingPort(portResult.Port);
     }
+}
+
+static bool ShouldSearchByProcessName(string input)
+{
+    return !input.Contains(',') &&
+        input.Any(character => !char.IsDigit(character));
 }
 
 static bool TryGetProcessNameInput(string input, out string processName)

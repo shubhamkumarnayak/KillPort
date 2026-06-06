@@ -39,9 +39,12 @@ From the repository root:
   ./publish/KillPort.exe --name node
 
 - Interactive mode
+  ZodiacShine
+
+- Interactive mode with explicit process-name prefix
   name:node
 
-Process name search is partial and case-insensitive. For example, `name:ZodiacShine` can match names such as `ZodiacShine`, `ZodiacShine.Api`, and `ZodiacShine.Worker`. When matches are found, choose one number, comma-separated numbers, or `all`.
+Process name search is partial and case-insensitive. For example, `ZodiacShine` or `name:ZodiacShine` can match names such as `ZodiacShine`, `ZodiacShine.Api`, and `ZodiacShine.Worker`. When matches are found, choose one number, comma-separated numbers, or `all`.
 
 The tool will print information about the process it found (PID, name) and whether termination succeeded.
 
